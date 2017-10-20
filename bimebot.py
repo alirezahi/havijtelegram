@@ -26,11 +26,15 @@ def start_bot(message):
 @bime_bot.message_handler()
 def start_bot(message):
     try:
-        if not message.text in ['اطلاعات','بیمه ثالث','بیمه بدنه']:
+        if message.text in ['اطلاعات','بیمه ثالث','بیمه بدنه']:
+            get_type(message)
+        else:
             chat_id = message.chat.id
             data = {'message':message.text,'action':''}
-            u = Request('http://192.168.110.47:8000/chat/message/'+str(chat_id)+'/',urllib.parse.urlencode(data).encode())
+            print(data)
+            u = Request('http://192.69.208.198:8000/chat/message/'+str(chat_id)+'/',urllib.parse.urlencode(data).encode())
             response = urlopen(u).read().decode()
+            print(response)
             msg = bime_bot.reply_to(message, response)
     except:
         bime_bot.reply_to(message, 'ببخشید. الان در دسترس نیستم')
@@ -47,7 +51,7 @@ def get_type(message):
         if message.text == 'بیمه بدنه':
             text_type = 'carbody'
         data = {'message':'','type':text_type,'action':''}
-        u = Request('http://192.168.110.47:8000/chat/message/'+str(chat_id)+'/',urllib.parse.urlencode(data).encode())
+        u = Request('http://192.69.208.198:8000/chat/message/'+str(chat_id)+'/',urllib.parse.urlencode(data).encode())
         response = urlopen(u).read().decode()
         msg = bime_bot.reply_to(message, response)
     except:
